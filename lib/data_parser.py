@@ -43,10 +43,13 @@ def parse_data(data):
             name = attr['objectTypeAttribute']['name']
             value_list = attr['objectAttributeValues']
 
-            value = None
+            value = list()
             for i in value_list:
                 if 'displayValue' in i.keys():
-                    value = i['displayValue']
+                    value.append(i['displayValue'])
+
+            if len(value) == 1:
+                value = value[0]
 
             result[key].update({name: value})
             
