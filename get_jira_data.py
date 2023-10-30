@@ -82,7 +82,7 @@ def get_obj_schema(obj_id):
     url = server + endpoint
     
     tmp = connect('GET', url, None)
-    if not tmp:
+    if tmp is None:
         return None
 
     for i in tmp['objectschemas']:
@@ -111,6 +111,8 @@ def get_obj_types(obj_schema):
         endpoint = f'/rest/insight/1.0/objectschema/{str(schema_id)}/objecttypes'
         url = server + endpoint
         r = connect('GET', url, None)
+        if r is None:
+            return None
 
         obj_types = list()
         if r:
@@ -158,11 +160,22 @@ if __name__=='__main__':
 
     if interactive:
         root_scheme = get_obj_schema(ROOT_OBJECT_SCHEME)
+        if root_scheme is None:
+            print(f'Unable to get the object scheme {ROOT_OBJECT_SCHEME} data. Exiting.')
+            sys.exit(1)
+            
         obj_types = get_obj_types(root_scheme)
+        if obj_types is None:
+            print(f'Unable to get the object types data. Exiting.')
+            sys.exit(1)
+            
         selected = list()
         selection = multiple_selection(obj_types, selected)
 
     data = get_data(selection, iql)
+    if data is None:
+        print(f'Unable to get data from Jira. Exiting.')
+            sys.exit(1)
 
     if not raw_output:
         data = parse_data(data)
