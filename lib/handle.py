@@ -18,7 +18,10 @@ def connect(method, url, data):
     except:
         print(f'Unable to connect to {url}. Exiting')
         return None
-
+    if r.status_code not in range(200, 299):
+        print(f'Unable to retrieve data. Status code from {url}: {r.status_code}.')
+        return None
+        
     result = json.loads(r.content)
 
     return result
