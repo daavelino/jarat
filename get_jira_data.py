@@ -192,7 +192,7 @@ if __name__=='__main__':
     data = get_data(selection, iql)
     if data is None:
         print(f'Unable to get data from Jira. Exiting.')
-            sys.exit(1)
+        sys.exit(1)
 
     if not raw_output:
         data = parse_data(data)
