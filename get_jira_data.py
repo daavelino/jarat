@@ -15,7 +15,7 @@ from lib.menu import multiple_selection
 from lib.handle import connect, write_json, stringify_list
 from lib.data_parser import parse_data
 
-from config.config import SERVER, ROOT_OBJECT_SCHEME, ATTRIBUTE_DEEP, RESULTS_PER_PAGE
+from config.settings import SERVER, ROOT_OBJECT_SCHEME, ATTRIBUTE_DEEP, RESULTS_PER_PAGE
 
 def parse_input():
     result = dict()
