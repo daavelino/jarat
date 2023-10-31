@@ -159,7 +159,6 @@ def get_data(selected, iql):
         if pages > 1:
             for page in range(2, pages + 1):
                 query.update({'page': page})
-                print(query)
                 r = connect('GET', url, query)
                 result['objectEntries'].extend(r['objectEntries'])
     else:
