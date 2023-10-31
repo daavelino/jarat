@@ -126,7 +126,7 @@ def get_obj_types(obj_schema):
     return result
 
 def get_data(selected, iql):
-    result = None
+    result = dict()
 
     server = SERVER
     endpoint = '/rest/insight/1.0/iql/objects'
@@ -146,7 +146,24 @@ def get_data(selected, iql):
     else:
         query['iql'] = iql
 
-    result = connect('GET', url, query)
+    r = connect('GET', url, query)
+    if r is not None:
+        result.update(r)
+        page_obj_size = r['pageObjectSize']
+        total_filter_count = r['totalFilterCount']
+
+        ## math ceil of both numbers:
+        pages = -(total_filter_count // -page_obj_size)
+
+        ## Pagination, if required by the RESULTS_PER_PAGE value:
+        if pages > 1:
+            for page in range(2, pages + 1):
+                query.update({'page': page})
+                print(query)
+                r = connect('GET', url, query)
+                result['objectEntries'].extend(r['objectEntries'])
+    else:
+        result = None
     
     return result
 
