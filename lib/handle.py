@@ -1,7 +1,7 @@
 import requests
 import json
 
-from config.config import ACCESS_TOKEN
+from config.settings import ACCESS_TOKEN
 
 def connect(method, url, data):
     result = None
