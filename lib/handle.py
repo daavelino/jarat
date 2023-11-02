@@ -1,6 +1,8 @@
 import requests
 import json
 
+from pathlib import Path, PurePosixPath
+
 from config.settings import ACCESS_TOKEN
 
 def connect(method, url, data):
@@ -27,7 +29,11 @@ def connect(method, url, data):
     return result
 
 def write_json(data, filename):
-    with open(filename, 'w') as f:
+
+    directory = PurePosixPath(filename)
+    parent = directory.parent
+    Path(str(parent)).mkdir(parents=True, exist_ok=True)
+    with open(filename, 'w', encoding='utf-8') as f:
         json.dump(data, f)
 
 def stringify_list(selected):
